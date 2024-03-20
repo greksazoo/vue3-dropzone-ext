@@ -1,9 +1,9 @@
 {
-  "name": "@jaxtheprime/vue3-dropzone",
+  "name": "greksazoo-vue3-dropzone",
   "description": "Vue simple dropzone",
   "private": false,
-  "version": "2.2.0",
-  "author": "Emad Moghimi <jaxtheprime@gmail.com>",
+  "version": "1.0.0",
+  "author": "Zoltan Greksa <zoli.greksa@gmail.com>",
   "license": "MIT",
   "type": "module",
   "files": [
@@ -34,7 +34,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JaxThePrime/vue3-dropzone"
+    "url": "git+https://github.com/greksazoo/vue3-dropzone-ext.git"
   },
   "dependencies": {
     "vue": "^3.4.19"

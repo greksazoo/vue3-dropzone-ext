@@ -3,6 +3,7 @@
 ## This is made from @jaxtheprime/vue3-dropzone. 
 Made some modification on it:
 - Select button after select files
+- remove Removebutton
 
 <div align="center">
   <h1 align="center"></a>Vue 3 dropzone component</h1>
