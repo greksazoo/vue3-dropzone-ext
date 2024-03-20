@@ -45,5 +45,9 @@
   },
   "peerDependencies": {
     "vue": "^3.4.19"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/greksazoo/vue3-dropzone-ext/issues"
+  },
+  "homepage": "https://github.com/greksazoo/vue3-dropzone-ext#readme"
 }

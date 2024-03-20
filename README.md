@@ -63,7 +63,7 @@ Local registration:
 
 
 <div align="center">
-  <h1 align="center"></a>Vue 3 dropzone component</h1>
+  <h1 align="center">Vue 3 dropzone component</h1>
   <p align="center">
     Customizable easy to use dropzone | <strong>Only supported for vue3</strong>
     <br>
