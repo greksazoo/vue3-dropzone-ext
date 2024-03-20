@@ -7,7 +7,7 @@
   "license": "MIT",
   "type": "module",
   "files": [
-    "dist"
+    "dist","src"
   ],
   "main": "./dist/Vue3Dropzone.umd.js",
   "module": "./dist/Vue3Dropzone.es.js",
