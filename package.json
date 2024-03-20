@@ -2,7 +2,7 @@
   "name": "greksazoo-vue3-dropzone",
   "description": "Vue simple dropzone",
   "private": false,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Zoltan Greksa <zoli.greksa@gmail.com>",
   "license": "MIT",
   "type": "module",

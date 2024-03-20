@@ -5,6 +5,63 @@ Made some modification on it:
 - Select button after select files
 - remove Removebutton
 
+
+# Installation
+
+- Install Yarn package
+
+```bash
+yarn add greksazoo-vue3-dropzone
+```
+
+- Install NPM package
+
+```bash
+npm install greksazoo-vue3-dropzone
+```
+
+## Usage
+
+Local registration:
+
+```jsx
+<template>
+    <Vue3Dropzone v-model="files"/>
+</template>
+
+<script>
+    import Vue3Dropzone from "greksazoo-vue3-dropzone";
+    import 'greksazoo-vue3-dropzone/dist/style.css'
+
+    const files = ref([]);
+</script>
+```
+
+
+## Props
+
+| Prop                    | Type              | Default   | Note                                                                  |
+|-------------------------|-------------------|-----------|-----------------------------------------------------------------------|
+| `modelValue`            | `Array`           | []        | 2 way binding ref                                                     |
+| `multiple`              | `Boolean`         | false     | Makes dropzone accept multiple files                                  |
+| `previews`              | `Array`           | []        | Preview images links (works with mode props)                          |
+| `mode`                  | `string`          | drop      | Defines dropzone functionality to accept drops or just preview images |
+| `disabled`              | `Boolean`         | false     | Disables the whole dropzone                                           |
+| `accept`                | `Array`           | []        | Accepted type of files                                                |
+| `maxFileSize`           | `Number`          | 5         | Max file size in Megabytes                                            |
+| `maxFiles`              | `Number`          | 5         | Max files accepted by dropzone                                        |
+| `width`                 | `Number` `String` | undefined | Dropzone container width                                              |
+| `height`                | `Number` `String` | undefined | Dropzone container height                                             |
+| `imgWidth`              | `Number` `String` | undefined | Preview images width                                                  |
+| `imgHeight`             | `Number` `String` | undefined | Preview images height                                                 |
+| `previewWrapperClasses` | `String`          | undefined | Preview images container classes                                      |
+| `blurOnClickOutside`    | `Boolean`         | true      | Removes state on click outside                                        |
+| `showSelectButton`      | `Boolean`         | true      | Select files button in the dropzone                                   |
+| `message`               | `String`          | undefined | Message under the dropzone area                                       |
+| `removeButton`          | `Boolean`         | true      | Enables RemoveButton                                                  |
+
+
+
 <div align="center">
   <h1 align="center"></a>Vue 3 dropzone component</h1>
   <p align="center">
