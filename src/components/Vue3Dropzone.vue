@@ -46,6 +46,9 @@
 
       <!--   Images previews   -->
       <template v-else>
+        <slot name="button" :fileInput="fileInput">
+          <button @click="fileInput?.click()" v-if="showSelectButton" class="select-file">Select File</button>
+        </slot>
         <div class="preview-container" :class="previewWrapperClasses">
           <slot name="preview" v-for="img in previewUrls" :data="img">
             <div class="preview"
@@ -54,7 +57,7 @@
               <img :src="img.src" :alt="img.name" v-if="img && img.type && img.type.includes('image/')">
               <Icon :name="img.name.split('.').pop()" v-if="img && img.type && !img.type.includes('image/')"/>
               <div class="img-details" v-if="img.name || img.size">
-                <button class="img-remove" @click="removeImg(img)">
+                <button v-if="removeButton" class="img-remove" @click="removeImg(img)">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                        class="icon icon-tabler icons-tabler-outline icon-tabler-x">
@@ -141,7 +144,11 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  message: String
+  message: String,
+  removeButton: {
+    type: Boolean,
+    default: true
+  },
 })
 const emit = defineEmits(['drop', 'update:modelValue'])
 
