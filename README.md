@@ -11,13 +11,13 @@ Made some modification on it:
 - Install Yarn package
 
 ```bash
-yarn add greksazoo-vue3-dropzone
+yarn add greksazoos-vue3-dropzone
 ```
 
 - Install NPM package
 
 ```bash
-npm install greksazoo-vue3-dropzone
+npm install greksazoos-vue3-dropzone
 ```
 
 ## Usage
@@ -30,8 +30,8 @@ Local registration:
 </template>
 
 <script>
-    import Vue3Dropzone from "greksazoo-vue3-dropzone";
-    import 'greksazoo-vue3-dropzone/dist/style.css'
+    import Vue3Dropzone from "greksazoos-vue3-dropzone";
+    import 'greksazoos-vue3-dropzone/dist/style.css'
 
     const files = ref([]);
 </script>
