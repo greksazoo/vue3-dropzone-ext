@@ -1,21 +1,11 @@
 <template>
   <div class="dropzone">
-    <div
-        class="dropzone-wrapper" :style="{width,height}"
-        @dragenter.prevent="toggleActive"
-        @dragleave.prevent="toggleActive"
-        @drop.prevent="drop"
-        @dragover.prevent
-        @mouseover="hover"
-        @mouseleave="blur"
-        :class="[{'dropzone-wrapper--active': active, 'dropzone-wrapper--disabled': disabled}, localState? `dropzone-wrapper--${localState}` : '']"
-        ref="dropzoneWrapper"
-        @click.self="openSelectFile"
-        id="dropzoneWrapper"
-    >
+    <div class="dropzone-wrapper" :style="{width,height}" @dragenter.prevent="toggleActive" @dragleave.prevent="toggleActive" @drop.prevent="drop"
+         @dragover.prevent @mouseover="hover" @mouseleave="blur"
+         :class="[{'dropzone-wrapper--active': active, 'dropzone-wrapper--disabled': disabled}, localState? `dropzone-wrapper--${localState}` : '']"
+         ref="dropzoneWrapper" @click.self="openSelectFile" id="dropzoneWrapper">
       <!--   Input   -->
-      <input type="file" ref="fileInput" class="hidden" :id="id" :accept="accept" @input="inputFiles"
-             :multiple="multiple">
+      <input type="file" ref="fileInput" class="hidden" :id="id" :accept="accept" @input="inputFiles" :multiple="multiple">
 
       <!--   Placeholder content   -->
       <template v-if="!previewUrls.length">
@@ -51,16 +41,15 @@
         </slot>
         <div class="preview-container" :class="previewWrapperClasses">
           <slot name="preview" v-for="img in previewUrls" :data="img">
-            <div class="preview"
-                 :class="{'preview__multiple': multiple, 'preview__file': img && img.type && !img.type.includes('image/')}"
+            <div class="preview" :class="{'preview__multiple': multiple, 'preview__file': img && img.type && !img.type.includes('image/')}"
                  :style="{width: `${imgWidth} !important`, height: `${imgHeight} !important`}">
               <img :src="img.src" :alt="img.name" v-if="img && img.type && img.type.includes('image/')">
               <Icon :name="img.name.split('.').pop()" v-if="img && img.type && !img.type.includes('image/')"/>
+
               <div class="img-details" v-if="img.name || img.size">
                 <button v-if="removeButton" class="img-remove" @click="removeImg(img)">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                       class="icon icon-tabler icons-tabler-outline icon-tabler-x">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                       stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-x">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
                     <path d="M18 6l-12 12"/>
                     <path d="M6 6l12 12"/>
@@ -69,13 +58,17 @@
                 <h2>{{ img.name }}</h2>
                 <span>{{ (img.size / 1024 / 1024).toFixed(2) }}MB</span>
               </div>
+              <div v-if="img.uploaded>0" class="uploading">
+                <div class="shell">
+                  <div class="bar" :style="{ width: img.uploaded+'%' }"></div>
+                </div>
+              </div>
             </div>
           </slot>
         </div>
       </template>
     </div>
-    <div class="dropzone-wrapper__disabled" @click.prevent @drop.prevent @dragover.prevent
-         v-if="disabled"></div>
+    <div class="dropzone-wrapper__disabled" @click.prevent @drop.prevent @dragover.prevent v-if="disabled"></div>
 
     <!--   Message   -->
     <Transition name="fade-in" mode="in-out">
@@ -88,6 +81,7 @@
 <script setup>
 import {computed, onBeforeUnmount, onMounted, ref, watchEffect} from "vue";
 import Icon from "./Icon.vue";
+import axios from 'axios';
 
 const props = defineProps({
   modelValue: {
@@ -149,6 +143,8 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
+  url: String,
+  auth: String,
 })
 const emit = defineEmits(['drop', 'update:modelValue'])
 
@@ -193,8 +189,10 @@ const inputFiles = (e) => {
       name: item.file.name,
       size: item.file.size,
       type: item.file.type,
+      uploaded: 0,
       id: item.id
-    })
+    });
+    upload(item);
   })
   previewUrls.value = generatedUrls;
 }
@@ -303,6 +301,35 @@ watchEffect(() => {
     emit('update:modelValue', files.value)
   }
 })
+
+const upload = (file) => {
+  if (props.url) {
+    let formData = new FormData();
+    formData.append('file', file.file);
+    axios.post(props.url,
+        formData,
+        {
+          headers: { 'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+            'Authorization': props.auth,
+            'Access-Control-Allow-Credentials':true,
+          },
+          onUploadProgress: function (progressEvent) {
+            previewUrls.find(obj => obj.id === file.id).uploaded = parseInt(Math.round((progressEvent.loaded / progressEvent.total) * 100));
+          }.bind(this)
+        }
+    ).then(function () {
+      console.log('SUCCESS!!');
+    })
+        .catch(function (r) {
+          console.log('FAILURE!!');
+          console.log(r.message);
+        });
+  }else{
+    console.log('URL not defined.');
+  }
+}
 
 </script>
 
@@ -539,5 +566,38 @@ watchEffect(() => {
 
 .fade-in-enter-active, .fade-in-leave-active {
   transition: all .2s linear
+}
+
+.uploading {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(var(--v3-dropzone--overlay), var(--v3-dropzone--overlay-opacity));
+  border-radius: 8px;
+  transition: all .2s linear;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  filter: grayscale(1%);
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden
+}
+
+.uploading .shell {
+  height: 20px;
+  width: 100%;
+}
+
+.uploading .bar {
+  background: linear-gradient(to right, #589a42, #228817);
+  height: 20px;
+  width: 15px;
+  border-radius: 9px;
+
 }
 </style>

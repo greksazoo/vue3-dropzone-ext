@@ -2,12 +2,13 @@
   "name": "greksazoos-vue3-dropzone",
   "description": "Vue simple dropzone",
   "private": false,
-  "version": "1.0.3",
+  "version": "1.0.7",
   "author": "Zoltan Greksa <zoli.greksa@gmail.com>",
   "license": "MIT",
   "type": "module",
   "files": [
-    "dist","src"
+    "dist",
+    "src"
   ],
   "main": "./dist/Vue3Dropzone.umd.js",
   "module": "./dist/Vue3Dropzone.es.js",
@@ -37,11 +38,12 @@
     "url": "git+https://github.com/greksazoo/vue3-dropzone-ext.git"
   },
   "dependencies": {
+    "axios": "^1.6.8",
     "vue": "^3.4.19"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
-    "vite": "^5.1.4"
+    "vite": "^5.4.2"
   },
   "peerDependencies": {
     "vue": "^3.4.19"
